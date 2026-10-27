@@ -7,8 +7,8 @@ type Rock = Vec & { vx: number; vy: number; r: number; shape: number[] };
 type Bullet = Vec & { vx: number; vy: number; life: number };
 type Keys = { left: boolean; right: boolean; thrust: boolean; fire: boolean };
 
-const ACCENT = '#3dff8f';
-const AMBER = '#ffb547';
+const ACCENT = '#ffb000';
+const AMBER = '#ff7a45';
 
 function makeRock(w: number, h: number, r: number, at?: Vec): Rock {
   let x = at?.x ?? Math.random() * w;
@@ -207,7 +207,7 @@ export function Asteroids({ onExit }: { onExit: (score: number) => void }) {
         ctx.save();
         ctx.translate(ship.x, ship.y);
         ctx.rotate(ship.a);
-        ctx.strokeStyle = '#e8f5ee';
+        ctx.strokeStyle = '#fff6e6';
         ctx.beginPath();
         ctx.moveTo(12, 0);
         ctx.lineTo(-9, -7);
