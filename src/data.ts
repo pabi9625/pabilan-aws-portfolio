@@ -19,8 +19,7 @@ export const links = {
   github: 'https://github.com/pabi9625',
   linkedin: 'https://www.linkedin.com/in/kumarathass-pabilan',
   cv: 'https://pabilan.dev/Kumarathass_Pabilan_CV.pdf',
-  // TODO: add a public email address.
-  email: null as string | null,
+  email: 'pabilankumarathass@gmail.com' as string | null,
 };
 
 export const about: string[] = [

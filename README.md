@@ -39,7 +39,7 @@ src/
   terminal/               # Terminal overlay, commands, Asteroids mini-game
 ```
 
-To update content, edit `src/data.ts`. Open TODOs: contact email (`links.email`), the live URL above, and absolute `og:image` / `og:url` in `index.html` once the domain is known.
+To update content, edit `src/data.ts`. Open TODOs: the live URL above and absolute `og:image` / `og:url` in `index.html` once the domain is known.
 
 ## Accessibility & performance
 
