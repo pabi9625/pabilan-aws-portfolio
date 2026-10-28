@@ -114,6 +114,10 @@ The site was also tested in an automated browser:
 - **Navigation and links:** every nav link works, and the CV, project and certificate links all respond successfully.
 - **Terminal:** every command works.
 
+## How it was built
+
+I built this with [Claude Code](https://claude.com/claude-code) as an AI pair programmer. The concept, content and decisions are mine. Claude helped write and test the code and draft this README.
+
 ## Tech stack
 
 - React 19 + TypeScript
