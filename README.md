@@ -149,13 +149,6 @@ src/
 
 To update content, edit `src/data.ts`. If the site moves to a new domain, update `canonical`, `og:url` and `og:image` in `index.html`.
 
-## Deploy your own copy to AWS Amplify
-
-1. Push the repo to GitHub.
-2. AWS Console → **AWS Amplify** → **Create new app** → **GitHub**, then authorise and pick the repo and the `main` branch.
-3. Amplify detects `amplify.yml` automatically. Save and deploy.
-4. Optionally add a custom domain under **Hosting → Custom domains**.
-
 ---
 
 © 2026 Kumarathass Pabilan · Hosted on AWS Amplify
