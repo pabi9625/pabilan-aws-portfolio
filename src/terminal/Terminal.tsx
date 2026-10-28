@@ -94,6 +94,26 @@ export function Terminal({ open, onClose }: Props) {
     onClose();
   }, [onClose]);
 
+  // `cd <section>`: close the terminal, scroll to the section and move focus to its heading.
+  const goto = useCallback(
+    (id: string) => {
+      returnFocus.current = null;
+      close();
+      window.setTimeout(() => {
+        const section = document.getElementById(id);
+        if (!section) return;
+        section.scrollIntoView();
+        window.history.replaceState(null, '', `#${id}`);
+        const heading = section.querySelector<HTMLElement>('h1, h2');
+        if (heading) {
+          heading.tabIndex = -1;
+          heading.focus({ preventScroll: true });
+        }
+      }, 0);
+    },
+    [close],
+  );
+
   const run = useCallback(
     (raw: string) => {
       if (booting) skipBoot();
@@ -107,6 +127,7 @@ export function Terminal({ open, onClose }: Props) {
         clear: () => (cleared = true),
         exit: close,
         play: () => setPlaying(true),
+        goto,
       });
       if (cleared) setLines([]);
       else setLines((l) => [...l, echo, ...(out ? [line(out)] : [])]);
@@ -114,7 +135,7 @@ export function Terminal({ open, onClose }: Props) {
       setHistIdx(-1);
       setInput('');
     },
-    [booting, skipBoot, close],
+    [booting, skipBoot, close, goto],
   );
 
   const endGame = useCallback((score: number) => {

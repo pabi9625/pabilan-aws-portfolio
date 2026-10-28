@@ -1,11 +1,12 @@
 import type { ReactNode } from 'react';
-import { about, certifications, education, links, profile, projects, shortHash, skills, type Project } from '../data';
+import { about, certifications, education, links, navItems, profile, projects, shortHash, skills, type Project } from '../data';
 import { ProfilePicture } from '../components/ProfilePicture';
 
 export type Ctx = {
   clear: () => void;
   exit: () => void;
   play: () => void;
+  goto: (sectionId: string) => void;
 };
 
 export const COMMANDS: { name: string; desc: string }[] = [
@@ -17,7 +18,8 @@ export const COMMANDS: { name: string; desc: string }[] = [
   { name: 'open', desc: 'open <project>: launch a live site or repo' },
   { name: 'education', desc: 'git log of my education' },
   { name: 'certs', desc: 'installed certification packages' },
-  { name: 'ls', desc: 'list files' },
+  { name: 'ls', desc: 'list sections and files' },
+  { name: 'cd', desc: 'cd <section>: jump to a section of the page' },
   { name: 'cat', desc: 'cat <file>: print a file' },
   { name: 'contact', desc: 'ways to reach me' },
   { name: 'cv', desc: 'open my CV (PDF)' },
@@ -29,8 +31,11 @@ export const COMMANDS: { name: string; desc: string }[] = [
 
 export const FILES = ['about.txt', 'skills.json', 'contact.txt', 'education.log', 'cv.pdf'];
 
+// Page sections double as directories for `ls` and `cd`.
+export const DIRS: string[] = navItems.map((n) => n.id).filter((id) => id !== 'home');
+
 export const CHIPS = [
-  'help', 'whoami', 'projects', 'skills', 'education', 'certs',
+  'help', 'whoami', 'ls', 'cd projects', 'projects', 'skills', 'education', 'certs',
   'contact', 'neofetch', 'cv', 'play asteroids', 'clear', 'exit',
 ];
 
@@ -43,6 +48,15 @@ function findProject(q: string): Project | undefined {
     projects.find((p) => p.name.toLowerCase() === s) ??
     projects.find((p) => p.slug.startsWith(s) || p.name.toLowerCase().startsWith(s))
   );
+}
+
+function resolveDir(arg: string): string | null {
+  const d = arg.toLowerCase().replace(/^~\/?/, '').replace(/\/+$/, '');
+  if (d === '' || d === '..' || d === '/' || d === 'home') return 'home';
+  if (d === 'certs') return 'certifications';
+  if (DIRS.includes(d)) return d;
+  const prefixed = DIRS.filter((x) => x.startsWith(d));
+  return prefixed.length === 1 ? prefixed[0] : null;
 }
 
 function openUrl(url: string, label: string): ReactNode {
@@ -275,6 +289,11 @@ export function execute(raw: string, ctx: Ctx): ReactNode | null {
     case 'ls':
       return (
         <p className="t-ls">
+          {DIRS.map((d) => (
+            <span key={d} className="t-accent t-bold">
+              {d}/
+            </span>
+          ))}
           {FILES.map((f) => (
             <span key={f} className={f.endsWith('.pdf') ? 't-amber' : undefined}>
               {f}
@@ -283,7 +302,29 @@ export function execute(raw: string, ctx: Ctx): ReactNode | null {
         </p>
       );
     case 'cat':
+      if (args[0] && resolveDir(args[0]) && !FILES.includes(args[0])) {
+        return <p className="t-err">cat: {args[0]}: Is a directory. Try <code>cd {args[0]}</code></p>;
+      }
       return catFile(args[0]);
+    case 'cd': {
+      const target = resolveDir(arg);
+      if (!target) {
+        const options = DIRS.filter((d) => d.startsWith(arg.toLowerCase()));
+        return options.length > 1 ? (
+          <p className="t-err">
+            cd: {arg}: ambiguous. Did you mean {options.join(' or ')}?
+          </p>
+        ) : (
+          <p className="t-err">
+            cd: {arg}: No such directory. Try <code>ls</code>.
+          </p>
+        );
+      }
+      ctx.goto(target);
+      return <p className="t-dim">→ ~/{target === 'home' ? '' : target}</p>;
+    }
+    case 'pwd':
+      return <p>/home/{profile.handle}</p>;
     case 'contact':
       return contactText();
     case 'cv':
@@ -329,12 +370,13 @@ export function complete(input: string): { value: string; options: string[] } {
   if (lower.startsWith('open ')) pool = projects.map((p) => `open ${p.slug}`);
   else if (lower.startsWith('cat ')) pool = FILES.map((f) => `cat ${f}`);
   else if (lower.startsWith('play ')) pool = ['play asteroids'];
+  else if (lower.startsWith('cd ')) pool = DIRS.map((d) => `cd ${d}`);
   else pool = COMMANDS.map((c) => c.name);
 
   const matches = pool.filter((c) => c.startsWith(lower));
   if (matches.length === 0) return { value: input, options: [] };
   if (matches.length === 1) {
-    const needsArg = ['open', 'cat', 'play'].includes(matches[0]);
+    const needsArg = ['open', 'cat', 'play', 'cd'].includes(matches[0]);
     return { value: matches[0] + (needsArg ? ' ' : ''), options: [] };
   }
   let prefix = matches[0];

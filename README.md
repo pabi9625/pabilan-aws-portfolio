@@ -32,7 +32,8 @@ Press <kbd>`</kbd>, click the floating **`>_` Open terminal** button, or use the
 | `skills` | skills printed as JSON |
 | `projects`, `open <name>` | list projects; open a live site or repo in a new tab (`open stridetrack`) |
 | `education`, `certs` | git-log education history; certificates with links |
-| `ls`, `cat <file>` | browse `about.txt`, `skills.json`, `contact.txt`, `education.log` |
+| `ls`, `cd <section>` | list the page's sections as directories; `cd projects` closes the terminal and scrolls the page there |
+| `cat <file>` | read `about.txt`, `skills.json`, `contact.txt`, `education.log` |
 | `contact`, `cv` | contact links; open my CV |
 | `clear`, `exit` | clear the screen; close the session |
 
@@ -44,8 +45,8 @@ Hidden extras: `sudo` (access politely denied), `neofetch` (a system-info card a
 
 How it stays usable:
 
-- **Shell features:** command history (↑/↓), Tab autocomplete for commands, project names and file names, and a friendly "command not found" message.
-- **Never in the way:** it's an overlay you can close with Esc, the × button or a click outside, and focus goes back to where you were. Everything it shows is also on the normal page.
+- **Shell features:** command history (↑/↓), Tab autocomplete for commands, sections, project names and file names, and a friendly "command not found" message.
+- **Never in the way:** it's an overlay you can close with Esc, the × button or a click outside, and focus goes back to where you were. Everything it shows is also on the normal page, and `cd` turns it into another way to navigate the site.
 - **Mobile:** opens full-screen with tappable command chips, and the game gets on-screen touch controls.
 - **Accessible dialog:** focus stays inside while it's open, and with reduced motion turned on the boot sequence shows instantly.
 
