@@ -4,7 +4,7 @@ Personal portfolio of **Kumarathass Pabilan**, a Computer Science undergraduate 
 
 The concept: **the whole site is a live server dashboard for `baner`**, my self-hosted home server. Sections are styled as file paths and shell commands, skills appear as a system monitor, projects as deployed services, education as a `git log`, and certifications as installed packages. Press <kbd>`</kbd> (or click the floating `>_` button) to open an interactive SSH-style terminal with commands, history, Tab autocomplete, and a small Asteroids game.
 
-**Live URL:** TODO: add the AWS Amplify URL after the first deploy
+**Live URL:** https://main.d2srve4h92m9bu.amplifyapp.com/
 
 ## Tech stack
 
@@ -39,7 +39,7 @@ src/
   terminal/               # Terminal overlay, commands, Asteroids mini-game
 ```
 
-To update content, edit `src/data.ts`. Open TODOs: the live URL above and absolute `og:image` / `og:url` in `index.html` once the domain is known.
+To update content, edit `src/data.ts`. If the site moves to a new domain, update `canonical`, `og:url` and `og:image` in `index.html`.
 
 ## Accessibility & performance
 
@@ -58,7 +58,7 @@ To update content, edit `src/data.ts`. Open TODOs: the live URL above and absolu
 1. Push this repo to GitHub as `pabilan-aws-portfolio` (public).
 2. AWS Console → **AWS Amplify** → **Create new app** → **GitHub** → authorise and pick the repo and branch.
 3. Amplify detects `amplify.yml` automatically (build: `npm ci`, `npm run build`; output: `dist`). Save and deploy.
-4. Copy the generated `*.amplifyapp.com` URL into this README and into `og:image` / `og:url` in `index.html`. Optionally add a custom domain under **Hosting → Custom domains**.
+4. Amplify gives the app a `*.amplifyapp.com` URL; it is used in this README and in `index.html` (`canonical`, `og:url`, `og:image`). Optionally add a custom domain under **Hosting → Custom domains**.
 
 ---
 

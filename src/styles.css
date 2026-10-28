@@ -11,7 +11,7 @@
   --line-2: #2f4437;
   --text: #dbe7e0;
   --muted: #93a89c;
-  --dim: #6f8578;
+  --dim: #7a9083;
   --accent: #3dff8f;
   --accent-2: #2bd673;
   --accent-ink: #04140a;
@@ -335,7 +335,7 @@ main:focus {
 
 .tags li {
   font-family: var(--mono);
-  font-size: 0.74rem;
+  font-size: 0.75rem;
   padding: 2px 8px;
   border-radius: 4px;
   border: 1px solid var(--line-2);
@@ -346,13 +346,13 @@ main:focus {
 /* ---------- reveal ---------- */
 
 @media (prefers-reduced-motion: no-preference) {
+  /* Motion only: content stays fully visible even before it is revealed
+     (full-page screenshots, print, find-in-page). */
   .reveal {
-    opacity: 0;
-    transform: translateY(14px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
+    transform: translateY(16px);
+    transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
   }
   .reveal.is-visible {
-    opacity: 1;
     transform: none;
   }
 }
@@ -587,7 +587,7 @@ main {
 .hero__psst {
   margin: 0;
   font-family: var(--mono);
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   color: var(--dim);
 }
 
@@ -635,7 +635,7 @@ main {
   right: -6px;
   bottom: 10%;
   font-family: var(--mono);
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   padding: 3px 8px;
   border-radius: 4px;
   background: var(--accent);
@@ -687,7 +687,7 @@ main {
 
 .status__note {
   display: block;
-  font-size: 0.74rem;
+  font-size: 0.75rem;
   color: var(--dim);
 }
 
@@ -782,7 +782,7 @@ main {
 .monitor__table th {
   text-align: left;
   font-weight: 500;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   color: var(--dim);
   padding: 8px 14px 4px;
 }
@@ -901,7 +901,7 @@ main {
   align-items: center;
   gap: 10px;
   font-family: var(--mono);
-  font-size: 0.74rem;
+  font-size: 0.75rem;
 }
 
 .service__unit {
@@ -1001,10 +1001,13 @@ main {
 
 .service__foot {
   margin-top: auto;
-  padding-top: 4px;
 }
 
 .service__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
   font-family: var(--mono);
   font-size: 0.85rem;
   font-weight: 700;
@@ -1179,7 +1182,7 @@ details[open] .pkgs__chev {
 .pkgs__name {
   grid-column: 1;
   font-family: var(--mono);
-  font-size: 0.74rem;
+  font-size: 0.75rem;
   color: var(--dim);
   overflow-wrap: anywhere;
 }
@@ -1194,7 +1197,7 @@ details[open] .pkgs__chev {
   grid-row: 1 / span 2;
   align-self: center;
   font-family: var(--mono);
-  font-size: 0.74rem;
+  font-size: 0.75rem;
   color: var(--accent);
 }
 

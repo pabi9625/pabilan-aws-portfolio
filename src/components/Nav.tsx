@@ -18,7 +18,7 @@ export function Nav() {
   return (
     <header className="nav">
       <div className="nav__inner">
-        <a className="nav__brand" href="#home" aria-label={`${profile.name}, back to top`}>
+        <a className="nav__brand" href="#home" aria-label={`${profile.handle}@${profile.host}, ${profile.name}, back to top`}>
           <span className="nav__led" aria-hidden="true" />
           {profile.handle}@{profile.host}
         </a>
