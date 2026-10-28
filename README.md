@@ -95,7 +95,12 @@ I also use AWS beyond this portfolio. StrideTrack, one of the featured projects,
 
 ## Lessons learned
 
-- **Static hosting on AWS is simple, but the build environment matters.** Pinning the Node version in the build spec avoids "works locally, fails on Amplify" problems.
+- **Configuring Amplify with `amplify.yml`.** This was my second time hosting a site on AWS Amplify, and this time I learned much more about how its build configuration works. The `amplify.yml` file in the repo defines every step:
+  - `preBuild` installs Node 22 (Vite 8 needs 20.19 or newer) and runs `npm ci`;
+  - `build` runs `npm run build`;
+  - `artifacts` tells Amplify to publish the `dist/` folder.
+
+  Because the configuration lives in the repo, it's versioned with the code and every push builds the same way. Pinning the Node version avoids "works locally, fails on Amplify" problems.
 - **A memorable feature must never block the basics.** Every terminal command has a normal-page equivalent, and the terminal is one key press away from being closed.
 - **Automated scores aren't the whole story.** Testing real interactions, real widths and every link found issues a perfect score missed.
 - **Accessibility shapes the design from the start.** Reduced-motion support, focus management and contrast were much easier to get right as part of the theme than to bolt on afterwards.
