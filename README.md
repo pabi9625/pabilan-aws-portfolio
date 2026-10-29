@@ -78,14 +78,14 @@ I also use AWS beyond this portfolio. StrideTrack, one of the featured projects,
 ## Building it: challenges and how they were solved
 
 1. **Build environment version.** Vite 8 needs Node.js 20.19 or newer, so `amplify.yml` installs and selects Node 22 before `npm ci` rather than relying on the build image's default.
-2. **Layout overflow on phones.** At 375px the page scrolled sideways because a long line (the university name) was set not to wrap. Testing at 375, 768 and 1440px with an automated browser found it, and letting the text wrap fixed it.
+2. **Layout overflow on phones.** At 375px the page scrolled sideways because a long line (the university name) was set not to wrap. Checking the site at 375, 768 and 1440px found it, and letting the text wrap fixed it.
 3. **A transparent profile photo.** Flattening the image turned its transparent background black. The site keeps the transparent version (WebP with a PNG fallback), and a separate Open Graph image places the photo on the site's background colour, because link previews often show transparent images badly.
 4. **Keyboard conflicts in the terminal.** Several keys had two jobs:
    - **Esc** both quits the game and closes the terminal, so the game handles it first.
    - **Tab** both autocompletes and moves focus, so it only autocompletes when something has been typed.
    - The <kbd>`</kbd> shortcut is ignored while the visitor is typing in a text field.
 5. **Opening links from commands.** `window.open` with the `noopener` feature always returns `null`, so a blocked pop-up couldn't be detected. The terminal now opens the tab first and then clears `opener`, and it always prints a clickable link as a fallback.
-6. **Accessibility beyond the Lighthouse score.** Lighthouse gave Accessibility 100, but it only checked what was visible on first load. A full manual audit found:
+6. **Accessibility beyond the Lighthouse score.** Lighthouse gave Accessibility 100, but it only checked what was visible on first load. A closer check of the whole page found:
    - 10 text elements below WCAG AA contrast;
    - 115 text elements smaller than 12px;
    - 18px-tall project links;
@@ -104,20 +104,6 @@ I also use AWS beyond this portfolio. StrideTrack, one of the featured projects,
 - **A memorable feature must never block the basics.** Every terminal command has a normal-page equivalent, and the terminal is one key press away from being closed.
 - **Automated scores aren't the whole story.** Testing real interactions, real widths and every link found issues a perfect score missed.
 - **Accessibility shapes the design from the start.** Reduced-motion support, focus management and contrast were much easier to get right as part of the theme than to bolt on afterwards.
-
-## Quality checks (live site)
-
-| Lighthouse | Performance | Accessibility | Best Practices | SEO |
-|---|---|---|---|---|
-| Mobile | 98 | 100 | 100 | 100 |
-| Desktop | 93–99 (varies between runs) | 100 | 100 | 100 |
-
-The site was also tested in an automated browser:
-
-- **Responsive:** no horizontal scrolling at 375, 768 or 1440px, all text at least 12px, and every tap target at least 24px.
-- **Contrast:** all text meets WCAG AA.
-- **Navigation and links:** every nav link works, and the CV, project and certificate links all respond successfully.
-- **Terminal:** every command works.
 
 ## How it was built
 
