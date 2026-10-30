@@ -144,6 +144,44 @@ export function Cabinet({ def, onEject }: { def: GameDef; onEject: () => void })
     }
   };
 
+  // Touch gestures on the game screen itself (swipe, tap, hold).
+  const gesture = useRef<{ x: number; y: number; moved: boolean } | null>(null);
+  const tap = (btn: Btn) => input.current.pressed.add(btn);
+
+  const onStageDown = (e: PointerEvent) => {
+    stageRef.current?.focus({ preventScroll: true });
+    const t = def.touch;
+    if (!t || e.pointerType === 'mouse' || (e.target as HTMLElement).closest('button')) return;
+    if (t.hold) {
+      const { held, pressed } = input.current;
+      if (!held[t.hold]) pressed.add(t.hold);
+      held[t.hold] = true;
+    }
+    gesture.current = { x: e.clientX, y: e.clientY, moved: false };
+  };
+
+  const onStageMove = (e: PointerEvent) => {
+    const g = gesture.current;
+    const swipe = def.touch?.swipe;
+    if (!g || !swipe) return;
+    const dx = e.clientX - g.x;
+    const dy = e.clientY - g.y;
+    if (Math.max(Math.abs(dx), Math.abs(dy)) < 24) return;
+    const dir = Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 'right' : 'left') : dy > 0 ? 'down' : 'up';
+    const btn = swipe[dir];
+    if (btn) tap(btn);
+    // Restart from here so one long drag can move several steps.
+    gesture.current = { x: e.clientX, y: e.clientY, moved: true };
+  };
+
+  const onStageUp = () => {
+    const t = def.touch;
+    const g = gesture.current;
+    if (t?.hold) input.current.held[t.hold] = false;
+    if (g && !g.moved && t?.tap) tap(t.tap);
+    gesture.current = null;
+  };
+
   const hold = (btn: Btn) => ({
     onPointerDown: (e: PointerEvent) => {
       e.preventDefault();
@@ -188,7 +226,10 @@ export function Cabinet({ def, onEject }: { def: GameDef; onEject: () => void })
         onBlur={(e: FocusEvent) => {
           if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setPause(true);
         }}
-        onPointerDown={() => stageRef.current?.focus({ preventScroll: true })}
+        onPointerDown={onStageDown}
+        onPointerMove={onStageMove}
+        onPointerUp={onStageUp}
+        onPointerCancel={onStageUp}
       >
         <canvas ref={canvasRef} />
         {hud.over && (
@@ -207,6 +248,7 @@ export function Cabinet({ def, onEject }: { def: GameDef; onEject: () => void })
         )}
       </div>
       <p className="cabinet__help">{def.controls} · p pause · r restart</p>
+      {def.touch && <p className="cabinet__touch-hint">{def.touch.hint}, or use the buttons</p>}
       <div className="cabinet__pad" aria-hidden="true">
         {def.pad.map((p) => (
           <button key={p.btn} type="button" tabIndex={-1} className={p.btn === 'a' ? 'is-a' : undefined} {...hold(p.btn)}>

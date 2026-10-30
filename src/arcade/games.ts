@@ -32,6 +32,7 @@ export const GAMES: GameDef[] = [
     w: 320,
     h: 320,
     pad: dpad,
+    touch: { hint: 'swipe on the screen to steer', swipe: { left: 'left', right: 'right', up: 'up', down: 'down' } },
     create: createSnake,
   },
   {
@@ -42,6 +43,11 @@ export const GAMES: GameDef[] = [
     w: 240,
     h: 320,
     pad: [...dpad, { btn: 'a', label: 'drop' }],
+    touch: {
+      hint: 'swipe ← → to move · tap to rotate · swipe ↓ to drop',
+      swipe: { left: 'left', right: 'right', down: 'a' },
+      tap: 'up',
+    },
     create: createBlocks,
   },
   {
@@ -50,8 +56,9 @@ export const GAMES: GameDef[] = [
     blurb: 'An endless desert run. Jump the cacti, duck the birds, and keep going as it speeds up.',
     controls: 'space / ↑ jump · ↓ duck',
     w: 480,
-    h: 180,
+    h: 240,
     pad: [{ btn: 'down', label: 'duck' }, { btn: 'a', label: 'jump' }],
+    touch: { hint: 'tap the screen to jump, hold for a higher jump', hold: 'a' },
     create: createDino,
   },
   {

@@ -55,7 +55,7 @@ How it stays usable:
 The `~/arcade` section has six retro mini-games, all hand-written on a `<canvas>` with no game libraries: **Astro Shooter** (vertical space shooter with waves and a spread-shot power-up), **Snake**, **Block Drop** (falling blocks with line clears and levels), **Dino Dash** (endless runner), **Brick Breaker** and **Paddle Duel** (pong against the CPU). Pick a cartridge and it loads into the cabinet above the list.
 
 - Keyboard controls only apply while the game screen has focus, so the page still scrolls normally. Clicking away pauses the game; `P` pauses and `R` restarts.
-- Touch devices get an on-screen pad with the buttons each game needs.
+- Touch devices get an on-screen pad with the buttons each game needs, plus gestures on the game screen: swipe to steer in Snake, swipe and tap in Block Drop, tap or hold to jump in Dino Dash.
 - High scores are saved per game in `localStorage`.
 - From the terminal, `play snake`, `play blocks`, `play dino`, `play astro`, `play breakout` or `play pong` jumps to the arcade and starts that game.
 

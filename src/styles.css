@@ -1887,6 +1887,14 @@ details[open] .pkgs__chev {
   text-align: center;
 }
 
+.cabinet__touch-hint {
+  display: none;
+  margin: 8px 0 0;
+  color: var(--dim);
+  font-size: 0.75rem;
+  text-align: center;
+}
+
 .cabinet__pad {
   display: none;
   gap: 8px;
@@ -1921,10 +1929,13 @@ details[open] .pkgs__chev {
   .cabinet__help {
     display: none;
   }
+  .cabinet__touch-hint {
+    display: block;
+  }
   /* Leave room for the nav, HUD bar and pad so the whole cabinet fits on screen. */
   .cabinet__stage {
-    max-width: min(100%, calc((100vh - 250px) * var(--ratio)));
-    max-width: min(100%, calc((100dvh - 250px) * var(--ratio)));
+    max-width: min(100%, calc((100vh - 270px) * var(--ratio)));
+    max-width: min(100%, calc((100dvh - 270px) * var(--ratio)));
   }
   /* The floating terminal button would cover the pad while playing. */
   body:has(.cabinet__pad) .term-fab {

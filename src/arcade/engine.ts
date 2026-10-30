@@ -29,6 +29,15 @@ export type GameDef = {
   w: number;
   h: number;
   pad: { btn: Btn; label: string }[];
+  // Gestures on the game screen for touch players.
+  touch?: {
+    hint: string;
+    // Swiping in a direction taps the mapped button.
+    swipe?: Partial<Record<'left' | 'right' | 'up' | 'down', Btn>>;
+    tap?: Btn;
+    // The whole screen acts as this button while a finger is down.
+    hold?: Btn;
+  };
   create: () => Game;
 };
 

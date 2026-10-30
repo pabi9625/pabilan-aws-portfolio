@@ -1,7 +1,7 @@
 import { C, overlap, rnd, sprite, type Game, type Rect } from '../engine';
 
 const W = 480;
-const GROUND = 150;
+const GROUND = 200;
 const S = 2;
 
 const BODY = [
@@ -44,7 +44,7 @@ export function createDino(): Game {
   let dist = 0;
   let gap = 300;
   let obs: Obstacle[] = [];
-  let clouds = [{ x: 120, y: 30 }, { x: 330, y: 55 }];
+  let clouds = [{ x: 120, y: 60 }, { x: 330, y: 100 }];
 
   const spawn = () => {
     const score = Math.floor(dist / 10);
@@ -86,7 +86,7 @@ export function createDino(): Game {
         c.x -= dx * 0.2;
         if (c.x < -40) {
           c.x = W + rnd(0, 80);
-          c.y = rnd(20, 70);
+          c.y = rnd(30, 120);
         }
       }
 
