@@ -1,6 +1,8 @@
 import type { ReactNode } from 'react';
 import { about, certifications, education, links, navItems, profile, projects, shortHash, skills, type Project } from '../data';
 import { ProfilePicture } from '../components/ProfilePicture';
+import { ARCADE_EVENT } from '../arcade/Arcade';
+import { GAMES } from '../arcade/games';
 
 export type Ctx = {
   clear: () => void;
@@ -24,7 +26,7 @@ export const COMMANDS: { name: string; desc: string }[] = [
   { name: 'contact', desc: 'ways to reach me' },
   { name: 'cv', desc: 'open my CV (PDF)' },
   { name: 'neofetch', desc: 'system info' },
-  { name: 'play', desc: 'play asteroids' },
+  { name: 'play', desc: 'play <game>: asteroids here, or an arcade game' },
   { name: 'clear', desc: 'clear the screen' },
   { name: 'exit', desc: 'close the session' },
 ];
@@ -336,7 +338,15 @@ export function execute(raw: string, ctx: Ctx): ReactNode | null {
         ctx.play();
         return <p className="t-dim">Launching asteroids… good luck, pilot.</p>;
       }
-      return <p>usage: play asteroids</p>;
+      {
+        const game = GAMES.find((g) => g.id === arg.toLowerCase());
+        if (game) {
+          ctx.goto('arcade');
+          window.setTimeout(() => window.dispatchEvent(new CustomEvent(ARCADE_EVENT, { detail: game.id })), 50);
+          return <p className="t-dim">Loading {game.title} into the arcade cabinet…</p>;
+        }
+      }
+      return <p>usage: play asteroids | {GAMES.map((g) => g.id).join(' | ')}</p>;
     case 'sudo':
       return (
         <p className="t-err">
@@ -369,7 +379,7 @@ export function complete(input: string): { value: string; options: string[] } {
   let pool: string[];
   if (lower.startsWith('open ')) pool = projects.map((p) => `open ${p.slug}`);
   else if (lower.startsWith('cat ')) pool = FILES.map((f) => `cat ${f}`);
-  else if (lower.startsWith('play ')) pool = ['play asteroids'];
+  else if (lower.startsWith('play ')) pool = ['asteroids', ...GAMES.map((g) => g.id)].map((g) => `play ${g}`);
   else if (lower.startsWith('cd ')) pool = DIRS.map((d) => `cd ${d}`);
   else pool = COMMANDS.map((c) => c.name);
 
