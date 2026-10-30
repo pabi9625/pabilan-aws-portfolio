@@ -25,6 +25,14 @@ function writeBest(id: string, n: number) {
   }
 }
 
+// Pad arrows sit like a keyboard's arrow keys: ▲ on top, ◀ ▼ ▶ underneath.
+const ARROW_CELL: Partial<Record<Btn, [number, number]>> = {
+  up: [2, 1],
+  left: [1, 2],
+  down: [2, 2],
+  right: [3, 2],
+};
+
 type Hud = { score: number; lives?: number; info?: string; over: boolean; result?: string };
 const snap = (g: Game): Hud => ({ score: g.score, lives: g.lives, info: g.info, over: g.over, result: g.result });
 
@@ -196,6 +204,13 @@ export function Cabinet({ def, onEject }: { def: GameDef; onEject: () => void })
     onPointerCancel: () => (input.current.held[btn] = false),
   });
 
+  // A lone arrow (Dino Dash's duck) stays a plain button next to the others.
+  const clustered = def.pad.filter((p) => ARROW_CELL[p.btn]).length > 1;
+  const arrows = clustered ? def.pad.filter((p) => ARROW_CELL[p.btn]) : [];
+  const buttons = def.pad.filter((p) => !arrows.includes(p));
+  const wide = arrows.some((p) => p.btn === 'left' || p.btn === 'right');
+  const tall = arrows.some((p) => p.btn === 'up' || p.btn === 'down');
+
   return (
     <div className="cabinet panel">
       <div className="cabinet__bar">
@@ -250,11 +265,33 @@ export function Cabinet({ def, onEject }: { def: GameDef; onEject: () => void })
       <p className="cabinet__help">{def.controls} · p pause · r restart</p>
       {def.touch && <p className="cabinet__touch-hint">{def.touch.hint}, or use the buttons</p>}
       <div className="cabinet__pad" aria-hidden="true">
-        {def.pad.map((p) => (
-          <button key={p.btn} type="button" tabIndex={-1} className={p.btn === 'a' ? 'is-a' : undefined} {...hold(p.btn)}>
-            {p.label}
-          </button>
-        ))}
+        {arrows.length > 1 && (
+          <div className="cabinet__arrows">
+            {arrows.map((p) => {
+              const [col, row] = ARROW_CELL[p.btn]!;
+              return (
+                <button
+                  key={p.btn}
+                  type="button"
+                  tabIndex={-1}
+                  style={{ gridColumn: wide && tall ? col : wide ? (p.btn === 'left' ? 1 : 2) : 1, gridRow: tall ? row : 1 }}
+                  {...hold(p.btn)}
+                >
+                  {p.label}
+                </button>
+              );
+            })}
+          </div>
+        )}
+        {buttons.length > 0 && (
+          <div className="cabinet__buttons">
+            {buttons.map((p) => (
+              <button key={p.btn} type="button" tabIndex={-1} className={p.btn === 'a' ? 'is-a' : undefined} {...hold(p.btn)}>
+                {p.label}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
