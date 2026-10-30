@@ -1808,6 +1808,14 @@ details[open] .pkgs__chev {
   cursor: pointer;
 }
 
+@media (max-width: 600px) {
+  /* Title and eject share the first row; stats get their own. */
+  .cabinet__stats {
+    order: 1;
+    flex-basis: 100%;
+  }
+}
+
 .cabinet__eject:hover {
   color: var(--accent);
   border-color: var(--accent);
@@ -1816,6 +1824,7 @@ details[open] .pkgs__chev {
 .cabinet__stage {
   position: relative;
   width: 100%;
+  max-width: min(100%, calc(68vh * var(--ratio)));
   margin: 0 auto;
   border: 1px solid var(--line-2);
   border-radius: 8px;
@@ -1911,6 +1920,11 @@ details[open] .pkgs__chev {
   }
   .cabinet__help {
     display: none;
+  }
+  /* Leave room for the nav, HUD bar and pad so the whole cabinet fits on screen. */
+  .cabinet__stage {
+    max-width: min(100%, calc((100vh - 250px) * var(--ratio)));
+    max-width: min(100%, calc((100dvh - 250px) * var(--ratio)));
   }
   /* The floating terminal button would cover the pad while playing. */
   body:has(.cabinet__pad) .term-fab {

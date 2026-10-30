@@ -178,7 +178,7 @@ export function Cabinet({ def, onEject }: { def: GameDef; onEject: () => void })
       <div
         ref={stageRef}
         className="cabinet__stage"
-        style={{ aspectRatio: `${def.w} / ${def.h}`, maxWidth: `min(100%, calc(68vh * ${def.w / def.h}))` }}
+        style={{ aspectRatio: `${def.w} / ${def.h}`, ['--ratio' as string]: def.w / def.h }}
         tabIndex={0}
         role="application"
         aria-label={`${def.title}. ${def.controls}. P to pause, R to restart.`}
