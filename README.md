@@ -50,6 +50,15 @@ How it stays usable:
 - **Mobile:** opens full-screen with tappable command chips, and the game gets on-screen touch controls.
 - **Accessible dialog:** focus stays inside while it's open, and with reduced motion turned on the boot sequence shows instantly.
 
+## Arcade
+
+The `~/arcade` section has six retro mini-games, all hand-written on a `<canvas>` with no game libraries: **Astro Shooter** (vertical space shooter with waves and a spread-shot power-up), **Snake**, **Block Drop** (falling blocks with line clears and levels), **Dino Dash** (endless runner), **Brick Breaker** and **Paddle Duel** (pong against the CPU). Pick a cartridge and it loads into the cabinet above the list.
+
+- Keyboard controls only apply while the game screen has focus, so the page still scrolls normally. Clicking away pauses the game; `P` pauses and `R` restarts.
+- Touch devices get an on-screen pad with the buttons each game needs.
+- High scores are saved per game in `localStorage`.
+- From the terminal, `play snake`, `play blocks`, `play dino`, `play astro`, `play breakout` or `play pong` jumps to the arcade and starts that game.
+
 ## Screenshots
 
 | Skills monitor | Projects as services |
@@ -141,6 +150,7 @@ src/
                           # Education, Certifications, Contact, Footer, CursorGlow
   hooks/                  # reduced-motion, scroll reveal, uptime, active section
   terminal/               # Terminal overlay, commands, Asteroids mini-game
+  arcade/                 # Arcade section: cabinet, shared engine, games/ (six mini-games)
 ```
 
 To update content, edit `src/data.ts`. If the site moves to a new domain, update `canonical`, `og:url` and `og:image` in `index.html`.

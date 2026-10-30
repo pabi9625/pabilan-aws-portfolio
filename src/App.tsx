@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { Arcade } from './arcade/Arcade';
 import { About } from './components/About';
 import { Certifications } from './components/Certifications';
 import { Contact } from './components/Contact';
@@ -49,6 +50,7 @@ export function App() {
         <Projects />
         <Education />
         <Certifications />
+        <Arcade />
         <Contact onOpenTerminal={openTerm} />
       </main>
       <Footer />
