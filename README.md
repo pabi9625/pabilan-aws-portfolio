@@ -18,6 +18,7 @@ I run a self-hosted home server called **`baner`**, so the whole site is designe
 | Projects | `systemctl` services with live / in-progress / source status |
 | Education | `git log --graph`, newest commit first |
 | Certifications | `apt list --installed`, grouped by provider in collapsible lists |
+| Arcade | `ls ~/arcade/roms`: six game cartridges that load into an arcade cabinet |
 
 ## Creative feature: the `baner` terminal
 
@@ -35,6 +36,7 @@ Press <kbd>`</kbd>, click the floating **`>_` Open terminal** button, or use the
 | `ls`, `cd <section>` | list the page's sections as directories; `cd projects` closes the terminal and scrolls the page there |
 | `cat <file>` | read `about.txt`, `skills.json`, `contact.txt`, `education.log` |
 | `contact`, `cv` | contact links; open my CV |
+| `play <game>` | `play asteroids` runs inside the terminal; `play snake`, `blocks`, `dino`, `astro`, `breakout` or `pong` jumps to the arcade and starts that game |
 | `clear`, `exit` | clear the screen; close the session |
 
 Hidden extras: `sudo` (access politely denied), `neofetch` (a system-info card about me, with my photo as the logo) and `play asteroids`, a small canvas game that nods to the Boot.dev course where I built Asteroids in Python and Pygame.
@@ -47,17 +49,41 @@ How it stays usable:
 
 - **Shell features:** command history (↑/↓), Tab autocomplete for commands, sections, project names and file names, and a friendly "command not found" message.
 - **Never in the way:** it's an overlay you can close with Esc, the × button or a click outside, and focus goes back to where you were. Everything it shows is also on the normal page, and `cd` turns it into another way to navigate the site.
-- **Mobile:** opens full-screen with tappable command chips, and the game gets on-screen touch controls.
+- **Mobile:** opens full-screen with tappable command chips, and Asteroids gets on-screen touch controls.
 - **Accessible dialog:** focus stays inside while it's open, and with reduced motion turned on the boot sequence shows instantly.
 
 ## Arcade
 
-The `~/arcade` section has six retro mini-games, all hand-written on a `<canvas>` with no game libraries: **Astro Shooter** (vertical space shooter with waves and a spread-shot power-up), **Snake**, **Block Drop** (falling blocks with line clears and levels), **Dino Dash** (endless runner), **Brick Breaker** and **Paddle Duel** (pong against the CPU). Pick a cartridge and it loads into the cabinet above the list.
+The `~/arcade` section is a small retro arcade: six mini-games, all hand-written on a `<canvas>` with no game libraries. Pick a cartridge and it loads into the cabinet above the list.
 
-- Keyboard controls only apply while the game screen has focus, so the page still scrolls normally. Clicking away pauses the game; `P` pauses and `R` restarts.
-- Touch devices get an on-screen pad with the buttons each game needs, plus gestures on the game screen: swipe to steer in Snake, swipe and tap in Block Drop, tap or hold to jump in Dino Dash.
-- High scores are saved per game in `localStorage`.
-- From the terminal, `play snake`, `play blocks`, `play dino`, `play astro`, `play breakout` or `play pong` jumps to the arcade and starts that game.
+![Arcade section: an INSERT COIN cabinet above six game cartridges](docs/screenshots/desktop-arcade.webp)
+
+| Game | What it is | Keyboard | Touch |
+|---|---|---|---|
+| **Astro Shooter** | Vertical space shooter. Drones, weaving ships and gunships that fire back come in waves; blue crosses give a spread shot for 10 seconds. 3 lives. | arrows move, Space fires | pad: arrows + fire |
+| **Snake** | Eat to grow; the snake speeds up with every bite. Walls and your own tail end the run. | arrows steer | swipe to steer, or the pad |
+| **Block Drop** | Falling blocks with rotation, a landing preview, soft and hard drop, line clears and levels that speed up every 10 lines. | ← → move, ↑ rotate, ↓ soft drop, Space hard drop | swipe ← → to move, tap to rotate, swipe ↓ to drop |
+| **Dino Dash** | Endless desert runner. Jump the cacti, duck the birds; it keeps getting faster. Holding jump goes higher. | Space / ↑ jump, ↓ duck | tap or hold the screen to jump, pad to duck |
+| **Brick Breaker** | Clear six rows of bricks. Where the ball hits the paddle sets its angle; each cleared wall starts a faster level. | ← → move, Space launches | pad: ◀ ▶ + launch |
+| **Paddle Duel** | Table tennis against the CPU, first to 7 wins. The CPU gets quicker as you score. | ↑ ↓ move | pad: ▲ ▼ |
+
+| Astro Shooter | Snake | Block Drop |
+|---|---|---|
+| ![Astro Shooter: ship firing at a wave of pixel aliens](docs/screenshots/arcade-astro.webp) | ![Snake grown to length 12, closing in on the food](docs/screenshots/arcade-snake.webp) | ![Block Drop with a stack of blocks and the next-piece preview](docs/screenshots/arcade-blocks.webp) |
+
+| Dino Dash | Brick Breaker | Paddle Duel |
+|---|---|---|
+| ![Dino Dash: the dino running toward a pair of cacti](docs/screenshots/arcade-dino.webp) | ![Brick Breaker with the ball heading back to the paddle](docs/screenshots/arcade-breakout.webp) | ![Paddle Duel against the CPU](docs/screenshots/arcade-pong.webp) |
+
+How it plays nicely with the rest of the page:
+
+- **Keyboard only when focused:** controls apply only while the game screen has focus, so the page still scrolls normally. Clicking away pauses the game; `P` pauses, `R` restarts, and Esc pauses and hands the keyboard back to the page.
+- **Phones:** each game gets its own on-screen buttons plus gestures on the game screen. The game screen is sized so the score, the game and the buttons all fit on screen together, and the floating terminal button hides while a game is loaded.
+- **High scores:** saved per game in your browser (`localStorage`).
+- **Terminal shortcut:** `play snake` (or any other game) in the terminal jumps to the arcade and starts it.
+- **One small engine:** the games share a fixed-resolution canvas loop, an input model (held and just-pressed buttons) and a few drawing helpers in `src/arcade/engine.ts`, so each game is a single file that only handles its own rules and drawing.
+
+<img src="docs/screenshots/mobile-arcade.webp" alt="Block Drop on a phone with swipe hint and on-screen buttons" width="300" />
 
 ## Screenshots
 
@@ -150,7 +176,9 @@ src/
                           # Education, Certifications, Contact, Footer, CursorGlow
   hooks/                  # reduced-motion, scroll reveal, uptime, active section
   terminal/               # Terminal overlay, commands, Asteroids mini-game
-  arcade/                 # Arcade section: cabinet, shared engine, games/ (six mini-games)
+  arcade/                 # Arcade section: Arcade.tsx (cartridge list), Cabinet.tsx
+                          # (canvas loop, keyboard, touch pad, high scores),
+                          # engine.ts (shared helpers), games/ (one file per game)
 ```
 
 To update content, edit `src/data.ts`. If the site moves to a new domain, update `canonical`, `og:url` and `og:image` in `index.html`.
