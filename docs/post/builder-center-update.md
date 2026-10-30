@@ -1,20 +1,18 @@
-# Builder Center update post
+# Builder Center post
 
 Copy each part below into the matching field. The three arcade images (10, 11, 12) load from GitHub; if Builder Center doesn't show them, upload `docs/post/10-arcade.jpg`, `11-arcade-games.jpg` and `12-mobile-arcade.jpg` and swap in the new image links.
 
 ## Title
 
-baner: my portfolio as a self-hosted server dashboard, now with a retro arcade
+baner: my portfolio as a self-hosted server dashboard, with a terminal and a retro arcade
 
 ## Description
 
-My AWS Amplify portfolio is designed as a live dashboard for my home server, baner, with a terminal you can SSH into. This update adds an arcade with six retro mini-games, playable on desktop and mobile.
+My AWS Amplify portfolio is designed as a live dashboard for my home server, baner, with a terminal you can SSH into and an arcade of six retro mini-games, playable on desktop and mobile.
 
 ## Body
 
-I run a small self-hosted home server called **baner**. For this challenge I wanted a portfolio that felt like it belonged to me rather than to a template, so I designed the whole site as a live server dashboard for baner, and added a terminal you can actually "SSH" into.
-
-**Update:** baner now has an arcade. I've added a `~/arcade` section with six retro mini-games you can play right on the page, on a laptop or a phone. Details are in the new section below.
+I run a small self-hosted home server called **baner**. For this challenge I wanted a portfolio that felt like it belonged to me rather than to a template, so I designed the whole site as a live server dashboard for baner, added a terminal you can actually "SSH" into, and built an arcade of six retro mini-games you can play right on the page.
 
 🔗 **Live site:** [https://main.d2srve4h92m9bu.amplifyapp.com/](https://main.d2srve4h92m9bu.amplifyapp.com/)&#x20;
 
@@ -36,7 +34,7 @@ Every section is styled as part of the server:
 * **Projects:** `systemctl` services, each with a status dot (live, in progress, or source on GitHub). Hovering or focusing a card reveals its status readout.
 * **Education:** a `git log --graph`, with commit hashes, dates and messages.
 * **Certifications:** `apt list --installed`, grouped by provider in collapsible lists, with each certificate linking to its credential.
-* **Arcade (new):** `ls ~/arcade/roms`, six game cartridges that load into an arcade cabinet.
+* **Arcade:** `ls ~/arcade/roms`, six game cartridges that load into an arcade cabinet.
 
 <Image url="https://prod-assets.cosmic.aws.dev/a/3LNPQKAgh6FSvTHuyWIfL2qQtG6/02-skills-jpg.webp?imgSize=1440x900" title="02" />
 
@@ -55,7 +53,7 @@ What you can do in it:
 * `whoami`, `about`, `skills`, `projects`, `education`, `certs`, `contact` print my information in terminal style.
 * `ls` lists the page's sections as directories, and `cd projects` closes the terminal and scrolls the page to that section, so the terminal doubles as a way to navigate the site.
 * `open stridetrack` opens a live project or repo in a new tab, and `cv` opens my CV.
-* `play snake` (or `blocks`, `dino`, `astro`, `breakout`, `pong`) jumps to the new arcade and starts that game.
+* `play snake` (or `blocks`, `dino`, `astro`, `breakout`, `pong`) jumps to the arcade and starts that game.
 * It behaves like a real shell: ↑/↓ command history, Tab autocomplete for commands, sections, project and file names, and a friendly "command not found" message.
 
 There are a few easter eggs too:
@@ -76,9 +74,9 @@ I wanted the feature to be fun without ever getting in the way:
 
 <Image url="https://prod-assets.cosmic.aws.dev/a/3LNQkDgZil4fnNuGvgUDIsU0MLO/09-mobile-hero-jpg.webp?imgSize=585x1266" title="09" />
 
-## New: the baner arcade
+## The baner arcade
 
-The Asteroids easter egg was my favourite part of the terminal, so I gave games a home of their own. The new **Arcade** section has six retro mini-games, each written from scratch on an HTML `<canvas>` with no game libraries:
+Beyond the terminal's Asteroids easter egg, games have a home of their own. The **Arcade** section has six retro mini-games, each written from scratch on an HTML `<canvas>` with no game libraries:
 
 * **Astro Shooter:** a vertical space shooter. Drones, weaving ships and gunships that fire back come in waves, and blue crosses give you a spread shot for ten seconds.
 * **Snake:** eat to grow, and the snake speeds up with every bite.
@@ -106,7 +104,7 @@ The games fit the rest of the site:
 
 The site is a static single-page app built with **React, TypeScript and Vite**, styled with plain CSS and no UI libraries. It's hosted on **AWS Amplify Hosting**:
 
-* **CI/CD from GitHub:** Amplify is connected to the `main` branch of my public repo, so every push triggers a new build and deploy. Each one takes about two minutes. The arcade went live the same way: merge to `main`, and Amplify built and deployed it.
+* **CI/CD from GitHub:** Amplify is connected to the `main` branch of my public repo, so every push triggers a new build and deploy. Each one takes about two minutes.
 * **Build configuration in code:** an `amplify.yml` file in the repo defines the build:
   * `preBuild` installs Node 22 and runs `npm ci`;
   * `build` runs `npm run build`;
